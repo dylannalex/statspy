@@ -1,5 +1,7 @@
 def truncate(number: float, after_comma_digits: int):
     n = str(number)
+    if "." not in n:
+        return n
     comma_index = n.find(".")
     decimals = len(n[comma_index + 1 :])
     if decimals < after_comma_digits:
