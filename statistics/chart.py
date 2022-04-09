@@ -10,8 +10,9 @@ class FrequencyChart:
     DATA_BACKGROUND_COLOR = "#E6E6E6"
 
     def __init__(self, x):
-        self.x = x
-        self.x_counter = Counter(x)
+        print(x)
+        self.x = sorted(x)
+        self.x_counter = Counter(self.x)
 
     @property
     def xi(self):
