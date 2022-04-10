@@ -1,3 +1,4 @@
+import numpy as np
 from collections import Counter
 from matplotlib import pyplot as plt
 from tools import number
@@ -68,4 +69,47 @@ class FrequencyChart:
             colColours=self.col_colors,
             loc="center",
         )
+        plt.show()
+
+
+class Ogive:
+    COLOR = "#7461A8"
+    MARKER = "o"
+    LINE_TYPE = "-"
+    FRI_YLABEL = "Relative Cumulative Frequency (Fri)"
+    FI_YLABEL = "Cumulative Frequency (Fi)"
+
+    def __init__(self, class_interval, cumulative_frequency, x_label=None):
+        self.class_interval = class_interval
+        self.Fi = cumulative_frequency
+        self.class_interval_length = class_interval[1] - class_interval[0]
+        self.x_label = x_label
+
+    @property
+    def Fri(self):
+        observations = self.Fi[-1]
+        return [cf / observations for cf in self.Fi]
+
+    def draw(self, relative_cumulative_frequency=True):
+        plt.plot(
+            self.class_interval[1:],
+            self.Fri if relative_cumulative_frequency else self.Fi,
+            color=Ogive.COLOR,
+            marker=Ogive.MARKER,
+            linestyle=Ogive.LINE_TYPE,
+        )
+        plt.xticks(
+            np.arange(
+                self.class_interval[1],
+                self.class_interval[-1] + self.class_interval_length,
+                self.class_interval_length,
+            )
+        )
+        if self.x_label:
+            plt.xlabel(self.x_label)
+        if relative_cumulative_frequency:
+            plt.ylabel(Ogive.FRI_YLABEL)
+        else:
+            plt.ylabel(Ogive.FI_YLABEL)
+
         plt.show()
